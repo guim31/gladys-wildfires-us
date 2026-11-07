@@ -12,47 +12,16 @@ the notes of the version's GitHub Release.
 
 ### Added
 
-- A working example of scene triggers, scene actions and dashboard widgets
-  (Gladys 5.1.0 or later).
-- `CHANGELOG.md`, rolled by the Release workflow.
-- A GitHub Release for every version, with its changelog section as notes: the
-  Gladys Supervision page links each version to the repository's releases.
-- CI runs the tests on Node 22 and 24, and builds the Docker image.
-- Dependabot keeps the npm dependencies and the GitHub Actions up to date.
-- `SECURITY.md` (how to report a vulnerability) and `CLAUDE.md` (project rules
-  for contributors and coding assistants).
-- Manifest tests: `version` matches `package.json`, `docker_image` is tagged
-  with it, descriptions hold 10 to 100 characters, placeholders are
-  multi-language objects.
-- The latitude and longitude fields show an example value as placeholder.
+- A "Fires around the house" device: the active wildfires of the National Interagency Fire Center
+  (NIFC, WFIGS) within a radius of your house (10 to 150 miles), the distance of the nearest fire
+  to the edge of its mapped perimeter, the nearest fire in words, and the total burned area.
+- Scene triggers: a new fire in the radius, a fire approaching (within an alert distance of 1 to
+  25 miles), a fire 100 % contained; each once per fire, with the fire details as variables.
+- A scene action that reads the fires around as one sentence, and a "Show the current fires"
+  button in the configuration.
+- A dashboard widget listing the fires nearest first, with size, county, containment and a map.
+- Options: prescribed burns, fully contained fires hidden, miles and acres or kilometres and
+  hectares, refresh interval, language of the texts (English, French, German, Spanish).
+- The location of the house is sent to NIFC rounded to 0.1° only, and never logged.
 
-### Changed
-
-- Node.js 22 or later is required (Node 20 is end-of-life).
-- Integration SDK 0.16.0. The tests now run against the fake Gladys of the
-  SDK, which refuses the payloads Gladys refuses. A device published with a
-  `poll_frequency` is now polled without `should_poll: true` on a recent
-  core (an explicit `should_poll: false` opts out); the template keeps the
-  field explicit for the older cores.
-- The refresh interval is one minute minimum, the fastest Gladys polls a
-  device. The plug's power is only sent when it changes, and every 30
-  minutes otherwise.
-
-### Fixed
-
-- Gladys refused the devices of the Discovery tab: the weather station and
-  the plug declared their poll frequency in seconds instead of one of the
-  values Gladys accepts, and were never polled. They now poll every minute,
-  and the readings follow the refresh interval of the configuration.
-
-- The release commit no longer fails `npm run format:check`: the Release
-  workflow updates the manifest `version` and `docker_image` in place instead
-  of re-printing the whole file with `jq`.
-- The integration can write to `/data`: the image creates the directory owned
-  by the `node` user, a new Docker volume was owned by root.
-- A sub-container running the integration's own image follows it to the new
-  tag at each release, as well as in the manifest of the build summary: it kept
-  the previous tag, which may not exist on the registry. Sub-containers on a
-  third-party image (a broker, a database...) keep theirs.
-
-[Unreleased]: https://github.com/GladysAssistant/integration-template-js/commits/main
+[Unreleased]: https://github.com/guim31/gladys-wildfires-us/commits/main

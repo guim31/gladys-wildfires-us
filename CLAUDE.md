@@ -16,8 +16,8 @@ its only runtime dependency. It started from the official JavaScript template.
 ```bash
 npm install
 npm test                                  # node --test, the built-in runner
-node --test test/devices.test.js          # one file
-node --test --test-name-pattern "plug"    # tests whose name matches
+node --test test/monitor.test.js          # one file
+node --test --test-name-pattern "widget"  # tests whose name matches
 npm run lint                              # ESLint
 npm run format:check                      # Prettier, as the CI runs it
 npm run format                            # Prettier, fix in place
@@ -32,15 +32,19 @@ pushing.
 
 ```
 index.js                          SDK wiring only: handlers registered before connect()
-src/devices/index.js              registry of the device blueprints + dispatch helpers
-src/devices/<type>.js             one device type per file (buildDevice, onPoll, onSetValue...)
-src/scenes.js                     scene action handlers (manifest `scene_actions`)
-src/widgets.js                    dashboard widget handlers (manifest `widgets`)
+src/app.js                        registers every SDK handler on the monitor (tests use it too)
+src/monitor.js                    refresh cycle, distances, states, scene triggers, connection status
+src/nifc.js                       NIFC client: the two WFIGS layers, joined on the IRWIN id
+src/geo.js                        haversine, distance to a perimeter (planar, at the house)
+src/device.js                     the one device and its four features
+src/messages.js                   texts in four languages, units (miles/acres, km/ha)
+src/widgets.js                    dashboard widget `fires`
+src/actions.js                    scene action `read_fires`, configuration action `check_now`
+src/store.js                      what was seen, under /data (atomic writes)
 src/config.js                     DEFAULT_CONFIG (mirrors the manifest defaults) + normalization
-src/weather.js                    example driver (Open-Meteo)
-gladys-assistant-integration.json manifest: name, config_schema, actions, image...
-docs/en.md, docs/fr.md            user documentation, re-hosted by Gladys (mandatory)
-test/                             node --test, against the SDK's fake Gladys (integration-sdk/testing)
+gladys-assistant-integration.json manifest: name, config_schema, actions, triggers, widget...
+docs/{en,fr,de,es}.md             user documentation, re-hosted by Gladys (mandatory)
+test/                             node --test, against the SDK's fake Gladys and a fake NIFC
 .github/scripts/release.mjs       release helpers (manifest bump, changelog), tested in test/
 ```
 
@@ -70,8 +74,8 @@ test/                             node --test, against the SDK's fake Gladys (in
   `type: "provider"`: 5.1.0). `test/manifest.test.js` ties the manifest to the
   code (defaults, action, scene and widget handlers): change both sides
   together.
-- **User-facing text** is bilingual (English and French): action messages,
-  manifest texts, and `docs/en.md` / `docs/fr.md`, kept in sync.
+- **User-facing text** is in English, French, German and Spanish: action
+  messages, manifest texts, and `docs/*.md`, kept in sync.
 - **Style.** Prettier formats, ESLint catches mistakes. Comments explain why,
   in English. Tests never touch the network.
 
@@ -214,6 +218,31 @@ code de ce dépôt. Compléter ce fichier quand un nouveau piège est découvert
 - Les filtres de scène ne font qu'égalité et appartenance : un seuil reste le travail d'un capteur.
 - **Les clés de widgets, de déclencheurs et d'actions sont figées une fois publiées.**
 - `gladys_version` `>=5.1.0` dès qu'il y a widgets, déclencheurs ou actions de scène.
+
+## NIFC (WFIGS) — propre à cette intégration
+
+- Deux couches ArcGIS FeatureServer publiques, sans clé, sur `services3.arcgis.com/T4QMspbfLg3qTGWY` :
+  `WFIGS_Incident_Locations_Current` (points, champs sans préfixe) et
+  `WFIGS_Interagency_Perimeters_Current` (polygones, champs `poly_*` et `attr_*`). Jointure sur l'IRWIN id
+  (`IrwinID` / `poly_IRWINID`, entre accolades, en majuscules : normalisé en minuscules sans accolades).
+- Requête géographique côté serveur : `geometry=lon,lat`, `geometryType=esriGeometryPoint`, `inSR=4326`,
+  `distance`, `units=esriSRUnit_StatuteMile`, `f=geojson`, `outSR=4326`. Les points sont en NAD83 (wkid 4269) : sans `outSR=4326`, l'écart est négligeable mais autant le demander.
+- ArcGIS répond **HTTP 200 avec `{ "error": … }`** sur une requête invalide : ne jamais traiter cela comme
+  « aucun feu ». Page de 2 000 objets (`exceededTransferLimit`, dans `properties` en GeoJSON). Réponses
+  mises en cache 5 min par ArcGIS (`cache-control: max-age=300`).
+- `IncidentTypeCategory` : `WF` (feux) et `RX` (brûlages dirigés, plus de la moitié des incidents en
+  novembre). Les feux d'un complexe sont listés un par un (`IsCpxChild`, `CpxName`), le complexe parent
+  ne l'est pas : pas de doublon à retirer.
+- Un feu reste « Current » des semaines après 100 % de maîtrise, jusqu'à `FireOutDateTime` ;
+  `ContainmentDateTime` est souvent vide même à 100 %. `PercentContained` vaut souvent `null` (petits
+  feux, brûlages). `InitialLatitude/Longitude` du périmètre peut être faux (Wild River, NH : longitude =
+  latitude) : on utilise la géométrie.
+- Pas de lien InciWeb dans les données (aucun identifiant InciWeb publié).
+- Périmètres pleine résolution : 1,5 Mo pour 10 feux ; `maxAllowableOffset=0.002` + `geometryPrecision=4`
+  : 90 Ko. Distances vérifiées contre les requêtes `distance` d'ArcGIS (Hagen 20,6 mi, Paradise 41,2 mi).
+- Gladys n'a ni acre ni hectare : surface en `surface/decimal` km² (dès 5.1.0) ; distance en `mile` ou
+  `km` selon le réglage **à la création** (le moniteur relit l'unité de la fonctionnalité créée).
+- `countries: ["US"]` impose `gladys_version >=5.3.0`.
 
 ## Store
 

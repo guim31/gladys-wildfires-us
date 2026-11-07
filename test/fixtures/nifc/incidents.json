@@ -1,0 +1,669 @@
+{
+  "type": "FeatureCollection",
+  "crs": { "type": "name", "properties": { "name": "EPSG:4326" } },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.82372093868, 45.9830868877314] },
+      "properties": {
+        "IrwinID": "{A9728AFD-FD16-45F5-9097-B1117964703F}",
+        "UniqueFireIdentifier": "2026-OR973S-000665",
+        "IncidentName": "Dorran Road",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 200,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790724441000,
+        "FireCause": "Human",
+        "POOState": "US-OR",
+        "POOCounty": "Umatilla",
+        "ModifiedOnDateTime_dt": 1793664805173
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.480630816009, 45.6830889010534] },
+      "properties": {
+        "IrwinID": "{B0396AC9-6C41-4BC3-A899-F309FC28BAAE}",
+        "UniqueFireIdentifier": "2026-OR973S-000206",
+        "IncidentName": "North Cayuse",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 4887,
+        "PercentContained": 97,
+        "FireDiscoveryDateTime": 1783202460000,
+        "FireCause": "Human",
+        "POOState": "US-OR",
+        "POOCounty": "Umatilla",
+        "ModifiedOnDateTime_dt": 1793992809003
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-119.130628978416, 45.9149958518822] },
+      "properties": {
+        "IrwinID": "{9EDC6736-3F83-404D-A07D-E6BB14167C20}",
+        "UniqueFireIdentifier": "2026-ORUMA-000742",
+        "IncidentName": "Wanaket UMA 004 Broadcast RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": null,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793908181000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Umatilla",
+        "ModifiedOnDateTime_dt": 1793988518183
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-119.094547018378, 46.1356228706962] },
+      "properties": {
+        "IrwinID": "{B0D63F9C-031A-4473-AEE8-17B02ECA8A21}",
+        "UniqueFireIdentifier": "2026-WABENN-260855",
+        "IncidentName": "1924",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 187,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790709960000,
+        "FireCause": "Human",
+        "POOState": "US-WA",
+        "POOCounty": "Benton",
+        "ModifiedOnDateTime_dt": 1793637987527
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.269013783122, 45.7070059239597] },
+      "properties": {
+        "IrwinID": "{D4E53810-46D0-48FB-889B-3E670328DCFB}",
+        "UniqueFireIdentifier": "2026-ORUMF-000324",
+        "IncidentName": "Hagen",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 61380,
+        "PercentContained": 99,
+        "FireDiscoveryDateTime": 1784244000000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Umatilla",
+        "ModifiedOnDateTime_dt": 1793993136457
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.314574713186, 45.3187458910334] },
+      "properties": {
+        "IrwinID": "{3017EE90-1857-40DF-89C0-C01704419FCA}",
+        "UniqueFireIdentifier": "2026-ORWWF-000671",
+        "IncidentName": "Birdtrack Unit 620 RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 200,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790869934000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Union",
+        "ModifiedOnDateTime_dt": 1793306889047
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-117.974295789936, 45.9981449746784] },
+      "properties": {
+        "IrwinID": "{C8034780-D588-48DA-8BC9-C6CED34CD8DF}",
+        "UniqueFireIdentifier": "2026-ORUMF-000302",
+        "IncidentName": "Paradise",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 9656,
+        "PercentContained": 86,
+        "FireDiscoveryDateTime": 1784230680000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wallowa",
+        "ModifiedOnDateTime_dt": 1793993021460
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.280789611469, 44.8279078577226] },
+      "properties": {
+        "IrwinID": "{55C74279-0C6B-4CF7-BF16-731E6A8FB5F9}",
+        "UniqueFireIdentifier": "2026-ORWWF-000531",
+        "IncidentName": "McCully",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 13604,
+        "PercentContained": 91,
+        "FireDiscoveryDateTime": 1787434080000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Baker",
+        "ModifiedOnDateTime_dt": 1794005992223
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.959245653031, 44.4186077614949] },
+      "properties": {
+        "IrwinID": "{D8C5C872-5637-482E-80C7-5423EFD602DA}",
+        "UniqueFireIdentifier": "2026-ORMAF-026009",
+        "IncidentName": "2026 BLUE MT PILE BURNING RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 457.5,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1767369612000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Grant",
+        "ModifiedOnDateTime_dt": 1793228718973
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-119.847513864847, 44.7323266980521] },
+      "properties": {
+        "IrwinID": "{4809F4AC-3B2C-4919-B7FE-706768E03B93}",
+        "UniqueFireIdentifier": "2026-OR953S-000489",
+        "IncidentName": "0489 PARRISH",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 404,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784231160000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wheeler",
+        "ModifiedOnDateTime_dt": 1793305607797
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.039846918192, 44.8401386867074] },
+      "properties": {
+        "IrwinID": "{2059A645-6D4B-4EF9-8D1A-8EA49732A456}",
+        "UniqueFireIdentifier": "2026-OR953S-000722",
+        "IncidentName": "0722 ROSENBAUM",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 483,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1786674720000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wheeler",
+        "ModifiedOnDateTime_dt": 1793306960580
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-117.251689597203, 45.701360024875] },
+      "properties": {
+        "IrwinID": "{71645C92-DEF2-43D2-A449-D3B48A074917}",
+        "UniqueFireIdentifier": "2026-ORWWF-000669",
+        "IncidentName": "Starvation 11A Rx",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 719,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790797936000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Wallowa",
+        "ModifiedOnDateTime_dt": 1793206645857
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.405131123747, 45.5621886990034] },
+      "properties": {
+        "IrwinID": "{0BAC8699-01A7-4D17-A418-4ACB6C324E43}",
+        "UniqueFireIdentifier": "2026-ORPRD-000476",
+        "IncidentName": "0476 HOAG",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 50224,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784221200000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Gilliam",
+        "ModifiedOnDateTime_dt": 1793313771997
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.450113512075, 44.1370057887299] },
+      "properties": {
+        "IrwinID": "{3B027DFA-0D43-4756-9F30-95CD8BB77DB9}",
+        "UniqueFireIdentifier": "2026-ORMAF-026023",
+        "IncidentName": "ELK 16 RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 543.5,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1774895854000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Grant",
+        "ModifiedOnDateTime_dt": 1793112869583
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-119.131808279783, 47.2931889435893] },
+      "properties": {
+        "IrwinID": "{8601A0E4-089B-4B9A-8088-6E9BD7EA1309}",
+        "UniqueFireIdentifier": "2026-WAGNRN-260851",
+        "IncidentName": "BLACK ROCK 2",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 160,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790540760000,
+        "FireCause": "Human",
+        "POOState": "US-WA",
+        "POOCounty": "Grant",
+        "ModifiedOnDateTime_dt": 1793638941950
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.426377105083, 45.4534146896957] },
+      "properties": {
+        "IrwinID": "{B454DACB-0FE8-49D7-9603-08759CDCD5C1}",
+        "UniqueFireIdentifier": "2026-ORPRD-000584",
+        "IncidentName": "0584 COTTONWOOD",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 15658,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784825460000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Gilliam",
+        "ModifiedOnDateTime_dt": 1793313727620
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-118.76644554711, 44.0258527502341] },
+      "properties": {
+        "IrwinID": "{D83038CC-55CB-470A-8AB9-F3F5F9D0ED68}",
+        "UniqueFireIdentifier": "2026-ORMAF-002746",
+        "IncidentName": "Jane 102 RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 3000,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1790783460000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Harney",
+        "ModifiedOnDateTime_dt": 1793042214610
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.759202069467, 45.0001426263897] },
+      "properties": {
+        "IrwinID": "{09290068-0244-4A3C-AED4-6D828812F2B1}",
+        "UniqueFireIdentifier": "2026-ORPRD-000432",
+        "IncidentName": "0432",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 2183,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784157607000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wasco",
+        "ModifiedOnDateTime_dt": 1793722605150
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-117.508133029167, 47.4869871281175] },
+      "properties": {
+        "IrwinID": "{2D84F41A-635A-45AF-992D-E87676604349}",
+        "UniqueFireIdentifier": "2026-WATBR-001001",
+        "IncidentName": "TBR RX - ROCKY PINE",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 80,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1768330560000,
+        "FireCause": "Undetermined",
+        "POOState": "US-WA",
+        "POOCounty": "Spokane",
+        "ModifiedOnDateTime_dt": 1793908520970
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-119.439180587863, 43.6086726552229] },
+      "properties": {
+        "IrwinID": "{D1885386-0825-4EB4-8BEC-B4C0274C5BBD}",
+        "UniqueFireIdentifier": "2026-ORBUD-002693",
+        "IncidentName": "Second Flat",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 105854,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784933580000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Harney",
+        "ModifiedOnDateTime_dt": 1793119794333
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.836014055431, 44.8645056097653] },
+      "properties": {
+        "IrwinID": "{23230FE2-352A-4036-8A22-0E58C817554C}",
+        "UniqueFireIdentifier": "2026-ORPRD-000485",
+        "IncidentName": "0485 DEEP CANYON",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 9170,
+        "PercentContained": 100,
+        "FireDiscoveryDateTime": 1784229060000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wasco",
+        "ModifiedOnDateTime_dt": 1793313890710
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.083453109504, 44.9335275897549] },
+      "properties": {
+        "IrwinID": "{21733FE5-30B4-49F5-8B52-B2558478B279}",
+        "UniqueFireIdentifier": "2026-ORWSA-000132",
+        "IncidentName": "Tule RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 300,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1791824400000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Wasco",
+        "ModifiedOnDateTime_dt": 1792943509027
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.379930418437, 45.6202561046019] },
+      "properties": {
+        "IrwinID": "{E55E5E25-0CCA-4078-A760-C739E81AB910}",
+        "UniqueFireIdentifier": "2026-IDNCF-000043",
+        "IncidentName": "RX Crooked Christie SRRD",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 126,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1775517660000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Idaho",
+        "ModifiedOnDateTime_dt": 1793056392460
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.451143316673, 45.03093605047] },
+      "properties": {
+        "IrwinID": "{4B9AD962-BABC-4303-B3C3-40617326BFCA}",
+        "UniqueFireIdentifier": "2026-IDPAF-265029",
+        "IncidentName": "Railroad RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 375,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1773859980000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Adams",
+        "ModifiedOnDateTime_dt": 1793221334170
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.673013764939, 47.0092061810768] },
+      "properties": {
+        "IrwinID": "{B4E3F0AA-778B-4F65-A5CA-DF16D34F73A7}",
+        "UniqueFireIdentifier": "2026-IDNCF-000027",
+        "IncidentName": "RX Pino Blanco-PALRD",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 147,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1770922320000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Latah",
+        "ModifiedOnDateTime_dt": 1793026875683
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.368963322691, 45.1424560674219] },
+      "properties": {
+        "IrwinID": "{766EBE73-A781-4722-942B-4C06AD72514B}",
+        "UniqueFireIdentifier": "2026-IDPAF-265030",
+        "IncidentName": "Brush RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 2000,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1773860148000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Adams",
+        "ModifiedOnDateTime_dt": 1793291209067
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.34348636301, 45.9649246286167] },
+      "properties": {
+        "IrwinID": "{41929AAE-0BF1-47A5-B8F2-62E25F84860C}",
+        "UniqueFireIdentifier": "2026-WAMCR-260928",
+        "IncidentName": "CONBOY NWR PILES RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": null,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1794011952000,
+        "FireCause": "Undetermined",
+        "POOState": "US-WA",
+        "POOCounty": "Klickitat",
+        "ModifiedOnDateTime_dt": 1794012019943
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.432669671317, 46.7894461894222] },
+      "properties": {
+        "IrwinID": "{C81A6651-9BDD-42E1-AF3C-3D0C24C13D55}",
+        "UniqueFireIdentifier": "2026-IDNCF-000661",
+        "IncidentName": "RX Little Boulder PALRD",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": null,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793896223000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Latah",
+        "ModifiedOnDateTime_dt": 1793896263497
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.842713901779, 47.4767061972483] },
+      "properties": {
+        "IrwinID": "{63D9D0F1-204B-4334-9605-6EFFD077AC22}",
+        "UniqueFireIdentifier": "2026-IDIPF-100005",
+        "IncidentName": "D1 RX MISC Pile Burn",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": null,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1767285300000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Kootenai",
+        "ModifiedOnDateTime_dt": 1793984414467
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.19251325173, 44.9450060682895] },
+      "properties": {
+        "IrwinID": "{BF9D281F-E4BA-4FFA-AA4C-2C277DA72D48}",
+        "UniqueFireIdentifier": "2026-IDPAF-265027",
+        "IncidentName": "Goose RX",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 529,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1773859800000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Adams",
+        "ModifiedOnDateTime_dt": 1793221397897
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.510147242498, 45.2529725674808] },
+      "properties": {
+        "IrwinID": "{6AA4C355-AD18-472F-AAAB-78BAA9DE31B1}",
+        "UniqueFireIdentifier": "2026-ORMHF-000688",
+        "IncidentName": "GRASSHOPPER",
+        "IncidentTypeCategory": "WF",
+        "IncidentSize": 93972,
+        "PercentContained": 98,
+        "FireDiscoveryDateTime": 1784860860000,
+        "FireCause": "Natural",
+        "POOState": "US-OR",
+        "POOCounty": "Wasco",
+        "ModifiedOnDateTime_dt": 1793582962740
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.051130326285, 45.4691231246591] },
+      "properties": {
+        "IrwinID": "{17C2B658-0449-42AD-ABFF-97EF518FA838}",
+        "UniqueFireIdentifier": "2026-IDNCF-000660",
+        "IncidentName": "RX Florence Fuels - SRRD",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": null,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793894400000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Idaho",
+        "ModifiedOnDateTime_dt": 1793905677280
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.543071275371, 45.3886055726332] },
+      "properties": {
+        "IrwinID": "{796BCDB6-DA91-40B4-B381-C4711D0EFDAA}",
+        "UniqueFireIdentifier": "2026-ORMHF-001321",
+        "IncidentName": "Moat Piles RX - East",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 42,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793725228000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Hood River",
+        "ModifiedOnDateTime_dt": 1793747022193
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.545681279228, 45.4054225734151] },
+      "properties": {
+        "IrwinID": "{7E75B9D6-51E3-44B3-A07B-CDE3CA5D3C61}",
+        "UniqueFireIdentifier": "2026-ORMHF-001300",
+        "IncidentName": "Ward Pile RX - East",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 29,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793289806000,
+        "FireCause": "Undetermined",
+        "POOState": "US-OR",
+        "POOCounty": "Hood River",
+        "ModifiedOnDateTime_dt": 1793812805493
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-115.979813375513, 45.7850161570306] },
+      "properties": {
+        "IrwinID": "{B03A4B83-DB96-4F57-A4ED-EC189F9885D5}",
+        "UniqueFireIdentifier": "2026-IDNCF-000646",
+        "IncidentName": "RX Doc Denny - SRRD",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 20,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793031551000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Idaho",
+        "ModifiedOnDateTime_dt": 1793637087357
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-116.304796167513, 44.3797060107314] },
+      "properties": {
+        "IrwinID": "{F537F686-8000-4E2A-8B8A-9EFFD47E8AE4}",
+        "UniqueFireIdentifier": "2026-IDBOF-001309",
+        "IncidentName": "RX D6 PILES",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 150,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793296629000,
+        "FireCause": "Undetermined",
+        "POOState": "US-ID",
+        "POOCounty": "Gem",
+        "ModifiedOnDateTime_dt": 1793804567887
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.649797408331, 45.9441385957005] },
+      "properties": {
+        "IrwinID": "{04E996A1-6202-4B05-8DDD-A12198DD0318}",
+        "UniqueFireIdentifier": "2026-WAGPF-001283",
+        "IncidentName": "Natural Bridges Pile RX - South",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 155,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793029254000,
+        "FireCause": "Undetermined",
+        "POOState": "US-WA",
+        "POOCounty": "Skamania",
+        "ModifiedOnDateTime_dt": 1793295532240
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.714731407781, 45.8921725858666] },
+      "properties": {
+        "IrwinID": "{5623FFBB-D25F-4AAC-837C-EE02C88CEADF}",
+        "UniqueFireIdentifier": "2026-WAGPF-001289",
+        "IncidentName": "66rd PCT Pile RX - South",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 167,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793121312000,
+        "FireCause": "Undetermined",
+        "POOState": "US-WA",
+        "POOCounty": "Skamania",
+        "ModifiedOnDateTime_dt": 1793292795207
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.931381437437, 45.8680055620398] },
+      "properties": {
+        "IrwinID": "{C4AE3B6D-5F21-485E-944E-34377935AA03}",
+        "UniqueFireIdentifier": "2026-ORMHF-001302",
+        "IncidentName": "Tyee Piles Rx - South",
+        "IncidentTypeCategory": "RX",
+        "IncidentSize": 329,
+        "PercentContained": null,
+        "FireDiscoveryDateTime": 1793296738000,
+        "FireCause": "Undetermined",
+        "POOState": "US-WA",
+        "POOCounty": "Skamania",
+        "ModifiedOnDateTime_dt": 1793381879987
+      }
+    }
+  ]
+}
