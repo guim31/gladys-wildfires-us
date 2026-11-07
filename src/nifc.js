@@ -139,6 +139,11 @@ const text = (value) =>
     .replace(/\s+/g, ' ')
     .trim();
 const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
+// A size of 0 means "not reported yet", not an empty fire.
+const positive = (value) => {
+  const n = number(value);
+  return n !== null && n > 0 ? n : null;
+};
 const percent = (value) => {
   const n = number(value);
   return n === null ? null : Math.max(0, Math.min(100, n));
@@ -168,7 +173,7 @@ function parseFire(feature, prefix, key) {
     type,
     id: text(p[`${prefix}UniqueFireIdentifier`]) || null,
     name: text(prefix ? p.poly_IncidentName : p.IncidentName) || null,
-    acres: number(p[`${prefix}IncidentSize`]) ?? number(p.poly_GISAcres),
+    acres: positive(p[`${prefix}IncidentSize`]) ?? positive(p.poly_GISAcres),
     containment: percent(p[`${prefix}PercentContained`]),
     discoveredAt: number(p[`${prefix}FireDiscoveryDateTime`]),
     cause: text(p[`${prefix}FireCause`]),
@@ -248,7 +253,8 @@ export async function fetchFires(fetchImpl, { center, radiusMiles, prescribedBur
     const fire = fires.get(perimeter.key);
     if (fire) {
       // The incident record is the reference; the perimeter fills its gaps.
-      fire.polygons = perimeter.polygons;
+      // Several perimeter records of one incident: all of them count.
+      fire.polygons = [...(fire.polygons ?? []), ...perimeter.polygons];
       fire.acres ??= perimeter.acres;
       fire.containment ??= perimeter.containment;
     } else {

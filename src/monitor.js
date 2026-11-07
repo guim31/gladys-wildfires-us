@@ -160,11 +160,18 @@ export class Monitor {
     // A cycle already running finishes with the old configuration, whole: the
     // new one comes after, and a wider area brings fires that are not news.
     await this.running;
-    const rediscover =
-      config.language !== this.config?.language || config.units !== this.config?.units;
+    const before = this.config ?? {};
+    const rediscover = config.language !== before.language || config.units !== before.units;
+    // A wider or moved area brings fires that are not news; a change of language,
+    // units or interval does not, and a fire appearing meanwhile still fires.
+    const areaChanged = ['center', 'radiusMiles', 'alertMiles', 'prescribedBurns'].some(
+      (key) => JSON.stringify(config[key]) !== JSON.stringify(before[key]),
+    );
     this.config = config;
     this.houseReadAt = -Infinity;
-    this.seedNext = true;
+    if (areaChanged) {
+      this.seedNext = true;
+    }
     logger.info('Configuration saved');
     this.warnAboutConfig();
     if (rediscover) {
@@ -422,7 +429,7 @@ export class Monitor {
       },
       {
         device_feature_external_id: ids.area,
-        state: Math.round(acres * SQUARE_KM_PER_ACRE * 100) / 100,
+        state: Math.round(acres * SQUARE_KM_PER_ACRE * 1000) / 1000,
       },
     ];
   }
@@ -458,7 +465,7 @@ export class Monitor {
       parts.push(render(STATUS, 'truncated'));
     }
     const message = parts.length > 0 ? join(...parts) : undefined;
-    const connected = !this.failing.has('nifc') && this.lastSuccessAt !== null;
+    const connected = !this.failing.has('nifc') && this.lastSuccessAt !== null && this.hasCenter;
     const key = JSON.stringify([connected, message]);
     if (key === this.statusMessage) {
       return;

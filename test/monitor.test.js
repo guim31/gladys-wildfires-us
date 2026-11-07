@@ -93,7 +93,7 @@ test('the states: count, nearest distance, nearest fire, total area', async (t) 
     'North Cayuse · 15 mi · 4\u202f887 acres · maîtrisé à 97 % · Umatilla, OR',
   );
   // 4,887 + 61,380 + 200 + 187 + 9,656 = 76,310 acres.
-  assert.equal(lastState(w, device, 'total_area'), 308.82);
+  assert.equal(lastState(w, device, 'total_area'), 308.816);
 });
 
 test('metric: the distance feature is created in km and published in km', async (t) => {
@@ -317,4 +317,30 @@ test('check_now answers in the four languages', async (t) => {
   assert.match(message.fr, /^5 feux à moins de 80 km : North Cayuse, à 24 km ;/);
   assert.match(message.de, /^5 Brände im Umkreis von 80 km: /);
   assert.match(message.es, /^5 incendios a menos de 80 km: /);
+});
+
+test('a change of language or units keeps the triggers of a fire appearing meanwhile', async (t) => {
+  const api = createApi();
+  const w = await world(t, {}, { api });
+  api.addFire(DORRAN_ROAD, {
+    id: 'eeeeeeee-0000-0000-0000-000000000001',
+    latitude: 46.05,
+    longitude: -118.4,
+  });
+  await w.fake.configUpdated({ language: 'en', units: 'metric' });
+  await w.monitor.running;
+  assert.deepEqual(
+    w.fake.sceneEvents.map((e) => e.key),
+    [TRIGGERS.NEW],
+  );
+});
+
+test('the house losing its location: disconnected, with the "no centre" message', async (t) => {
+  const w = await world(t);
+  assert.equal(w.fake.connectionStatus.connected, true);
+  w.fake.houses = [{ ...HOUSE, latitude: null, longitude: null }];
+  w.clock.advance(2 * 60 * 60 * 1000);
+  await w.monitor.runCycle();
+  assert.equal(w.fake.connectionStatus.connected, false);
+  assert.match(w.fake.connectionStatus.message.en, /No centre/);
 });

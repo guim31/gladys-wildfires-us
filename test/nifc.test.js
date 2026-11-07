@@ -108,6 +108,35 @@ test('a perimeter alone (its point beyond the radius) still brings its fire', as
   assert.equal(hagen.containment, 99);
 });
 
+test('two perimeter records of one incident both count; a size of 0 is unknown', async () => {
+  const api = createApi();
+  const hagen = api.perimeter(HAGEN);
+  const extra = structuredClone(hagen);
+  extra.geometry = {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-118.8, 45.66],
+        [-118.78, 45.66],
+        [-118.78, 45.68],
+        [-118.8, 45.68],
+        [-118.8, 45.66],
+      ],
+    ],
+  };
+  api.perimeters.push(extra);
+  api.incident(HAGEN).properties.IncidentSize = 0;
+  const { fires } = await fetchFires(api.fetch, {
+    center,
+    radiusMiles: 50,
+    prescribedBurns: false,
+  });
+  const fire = fires.find((f) => f.key === HAGEN);
+  assert.equal(distanceToPolygons(center, fire.polygons), 0);
+  // The incident says 0: the size of the perimeter record is used.
+  assert.equal(fire.acres, 61380);
+});
+
 test('a truncated layer is reported', async () => {
   const body = {
     type: 'FeatureCollection',
