@@ -1,177 +1,988 @@
 {
   "manifest_version": 1,
   "type": "device",
-  "name": "Demo Devices Template",
+  "name": "US Wildfires",
   "description": {
-    "en": "Starter template showing sensors, a switch, a dimmable light and a smart plug.",
-    "fr": "Template de démarrage : capteurs, interrupteur, lampe variable et prise connectée."
+    "en": "Active wildfires near your home in the United States, from NIFC: distance, size, containment.",
+    "fr": "Feux de forêt en cours près de chez vous aux États-Unis, par le NIFC : distance, surface, maîtrise.",
+    "de": "Aktive Waldbrände nahe deinem Zuhause in den USA, vom NIFC: Entfernung, Fläche, Eindämmung.",
+    "es": "Incendios activos cerca de su casa en EE. UU., del NIFC: distancia, superficie y contención."
   },
   "version": "1.0.0",
-  "docker_image": "ghcr.io/gladysassistant/integration-template-js:1.0.0",
-  "gladys_version": ">=5.1.0",
-  "cover_image": "https://raw.githubusercontent.com/GladysAssistant/integration-template-js/master/cover.png",
-  "categories": ["lighting", "security", "environment"],
-  "transports": ["local", "cloud"],
+  "docker_image": "ghcr.io/guim31/gladys-wildfires-us:1.0.0",
+  "gladys_version": ">=5.3.0",
+  "cover_image": "https://raw.githubusercontent.com/guim31/gladys-wildfires-us/main/cover.png",
+  "categories": ["environment", "security"],
+  "countries": ["US"],
+  "transports": ["cloud"],
+  "location": true,
   "config_schema": [
     {
       "key": "intro",
       "type": "section",
-      "label": { "en": "Getting started", "fr": "Pour commencer" },
+      "label": {
+        "en": "Your area",
+        "fr": "Votre zone",
+        "de": "Dein Gebiet",
+        "es": "Su zona"
+      },
       "description": {
-        "en": "The demo weather station reads real data from the free Open-Meteo API: pick the coordinates to observe. No account, no API key.",
-        "fr": "La station météo de démonstration lit de vraies données via l'API gratuite Open-Meteo : choisissez les coordonnées à observer. Pas de compte, pas de clé d'API."
+        "en": "The wildfires of the National Interagency Fire Center within a radius of your house (or of coordinates). Save, then create the device in the Discover tab.",
+        "fr": "Les feux de forêt du National Interagency Fire Center dans un rayon autour de votre maison (ou de coordonnées). Enregistrez, puis créez l'appareil dans l'onglet Découverte.",
+        "de": "Die Waldbrände des National Interagency Fire Center in einem Radius um dein Haus (oder um Koordinaten). Speichere und lege dann das Gerät im Tab „Entdecken“ an.",
+        "es": "Los incendios forestales del National Interagency Fire Center en un radio alrededor de su casa (o de unas coordenadas). Guarde y cree el dispositivo en la pestaña Descubrir."
       },
       "links": [
         {
-          "url": "https://open-meteo.com/en/docs",
-          "label": { "en": "Open-Meteo documentation", "fr": "Documentation Open-Meteo" }
+          "url": "https://github.com/guim31/gladys-wildfires-us/blob/main/docs/en.md",
+          "label": {
+            "en": "Setup guide",
+            "fr": "Guide d'installation",
+            "de": "Installationsanleitung",
+            "es": "Guía de instalación"
+          }
+        }
+      ]
+    },
+    {
+      "key": "about",
+      "type": "section",
+      "label": {
+        "en": "Sources and limits",
+        "fr": "Sources et limites",
+        "de": "Quellen und Grenzen",
+        "es": "Fuentes y límites"
+      },
+      "description": {
+        "en": "Data: NIFC WFIGS, public domain, read without an account. Not an official alert service: follow your local authorities and emergency alerts. Not affiliated with NIFC.",
+        "fr": "Données : NIFC WFIGS, domaine public, lues sans compte. Pas un service d'alerte officiel : suivez vos autorités locales et les alertes d'urgence. Non affiliée au NIFC.",
+        "de": "Daten: NIFC WFIGS, gemeinfrei, ohne Konto gelesen. Kein offizieller Warndienst: Befolge deine örtlichen Behörden und Notfallwarnungen. Nicht mit dem NIFC verbunden.",
+        "es": "Datos: NIFC WFIGS, dominio público, leídos sin cuenta. No es un servicio de alerta oficial: siga a sus autoridades locales y las alertas de emergencia. Sin afiliación con el NIFC."
+      },
+      "links": [
+        {
+          "url": "https://data-nifc.opendata.arcgis.com",
+          "label": {
+            "en": "NIFC open data",
+            "fr": "Données ouvertes du NIFC",
+            "de": "Offene Daten des NIFC",
+            "es": "Datos abiertos del NIFC"
+          }
+        },
+        {
+          "url": "https://www.ready.gov/wildfires",
+          "label": {
+            "en": "Ready.gov: wildfires",
+            "fr": "Ready.gov : feux de forêt",
+            "de": "Ready.gov: Waldbrände",
+            "es": "Ready.gov: incendios"
+          }
         }
       ]
     },
     {
       "key": "latitude",
-      "type": "number",
-      "label": { "en": "Latitude", "fr": "Latitude" },
-      "description": {
-        "en": "Latitude used for the demo weather sensor.",
-        "fr": "Latitude utilisée par le capteur météo de démonstration."
+      "type": "string",
+      "label": {
+        "en": "Centre latitude",
+        "fr": "Latitude du centre",
+        "de": "Breitengrad des Mittelpunkts",
+        "es": "Latitud del centro"
       },
-      "placeholder": { "en": "e.g. 48.8566", "fr": "ex. 48.8566" },
-      "required": true,
-      "default": 48.8566,
-      "min": -90,
-      "max": 90
+      "description": {
+        "en": "Leave both coordinates empty to use the location of your house in Gladys.",
+        "fr": "Laissez les deux coordonnées vides pour utiliser la position de votre maison dans Gladys.",
+        "de": "Lass beide Koordinaten leer, um den Standort deines Hauses in Gladys zu verwenden.",
+        "es": "Deje ambas coordenadas vacías para usar la ubicación de su casa en Gladys."
+      },
+      "placeholder": {
+        "en": "e.g. 34.0522",
+        "fr": "ex. 34,0522",
+        "de": "z. B. 34.0522",
+        "es": "p. ej. 34.0522"
+      },
+      "required": false,
+      "default": ""
     },
     {
       "key": "longitude",
-      "type": "number",
-      "label": { "en": "Longitude", "fr": "Longitude" },
-      "description": {
-        "en": "Longitude used for the demo weather sensor.",
-        "fr": "Longitude utilisée par le capteur météo de démonstration."
+      "type": "string",
+      "label": {
+        "en": "Centre longitude",
+        "fr": "Longitude du centre",
+        "de": "Längengrad des Mittelpunkts",
+        "es": "Longitud del centro"
       },
-      "placeholder": { "en": "e.g. 2.3522", "fr": "ex. 2.3522" },
-      "required": true,
-      "default": 2.3522,
-      "min": -180,
-      "max": 180
+      "description": {
+        "en": "Decimal degrees, negative in the United States (west).",
+        "fr": "Degrés décimaux, négatifs aux États-Unis (ouest).",
+        "de": "Dezimalgrad, in den USA negativ (Westen).",
+        "es": "Grados decimales, negativos en EE. UU. (oeste)."
+      },
+      "placeholder": {
+        "en": "e.g. -118.2437",
+        "fr": "ex. -118,2437",
+        "de": "z. B. -118.2437",
+        "es": "p. ej. -118.2437"
+      },
+      "required": false,
+      "default": ""
     },
     {
-      "key": "unit",
+      "key": "radius",
       "type": "select",
-      "label": { "en": "Temperature unit", "fr": "Unité de température" },
+      "label": {
+        "en": "Radius",
+        "fr": "Rayon",
+        "de": "Radius",
+        "es": "Radio"
+      },
+      "description": {
+        "en": "Fires whose perimeter (or location, when no perimeter is mapped) is within this distance.",
+        "fr": "Feux dont le périmètre (ou la position, faute de périmètre cartographié) est à moins de cette distance.",
+        "de": "Brände, deren Umriss (oder Position, wenn kein Umriss kartiert ist) innerhalb dieser Entfernung liegt.",
+        "es": "Incendios cuyo perímetro (o ubicación, si no hay perímetro cartografiado) está a menos de esta distancia."
+      },
       "required": false,
-      "default": "celsius",
+      "default": "50",
       "options": [
-        { "value": "celsius", "label": { "en": "Celsius", "fr": "Celsius" } },
-        { "value": "fahrenheit", "label": { "en": "Fahrenheit", "fr": "Fahrenheit" } }
+        {
+          "value": "10",
+          "label": {
+            "en": "10 miles (16 km)",
+            "fr": "10 miles (16 km)",
+            "de": "10 Meilen (16 km)",
+            "es": "10 millas (16 km)"
+          }
+        },
+        {
+          "value": "25",
+          "label": {
+            "en": "25 miles (40 km)",
+            "fr": "25 miles (40 km)",
+            "de": "25 Meilen (40 km)",
+            "es": "25 millas (40 km)"
+          }
+        },
+        {
+          "value": "50",
+          "label": {
+            "en": "50 miles (80 km)",
+            "fr": "50 miles (80 km)",
+            "de": "50 Meilen (80 km)",
+            "es": "50 millas (80 km)"
+          }
+        },
+        {
+          "value": "100",
+          "label": {
+            "en": "100 miles (161 km)",
+            "fr": "100 miles (161 km)",
+            "de": "100 Meilen (161 km)",
+            "es": "100 millas (161 km)"
+          }
+        },
+        {
+          "value": "150",
+          "label": {
+            "en": "150 miles (241 km)",
+            "fr": "150 miles (241 km)",
+            "de": "150 Meilen (241 km)",
+            "es": "150 millas (241 km)"
+          }
+        }
       ]
     },
     {
-      "key": "poll_frequency",
-      "type": "number",
-      "label": { "en": "Refresh interval (s)", "fr": "Intervalle de rafraîchissement (s)" },
+      "key": "alert_distance",
+      "type": "select",
+      "label": {
+        "en": "Alert distance",
+        "fr": "Distance d'alerte",
+        "de": "Warnentfernung",
+        "es": "Distancia de alerta"
+      },
       "description": {
-        "en": "How often sensors are polled, in seconds (one minute minimum).",
-        "fr": "Fréquence d'interrogation des capteurs, en secondes (une minute minimum)."
+        "en": "The scene trigger “Fire approaching” fires when a fire comes within this distance.",
+        "fr": "Le déclencheur de scène « Feu qui approche » se déclenche quand un feu arrive à moins de cette distance.",
+        "de": "Der Szenenauslöser „Brand nähert sich“ löst aus, wenn ein Brand näher als diese Entfernung kommt.",
+        "es": "El desencadenante de escena «Incendio que se acerca» se activa cuando un incendio llega a menos de esta distancia."
       },
       "required": false,
-      "default": 300,
-      "min": 60,
-      "max": 3600
-    }
-  ],
-  "actions": [
-    {
-      "key": "test_weather",
-      "label": { "en": "Test the weather provider", "fr": "Tester le fournisseur météo" },
-      "timeout_seconds": 30
+      "default": "10",
+      "options": [
+        {
+          "value": "1",
+          "label": {
+            "en": "1 mile (2 km)",
+            "fr": "1 mile (2 km)",
+            "de": "1 Meile (2 km)",
+            "es": "1 milla (2 km)"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "en": "3 miles (5 km)",
+            "fr": "3 miles (5 km)",
+            "de": "3 Meilen (5 km)",
+            "es": "3 millas (5 km)"
+          }
+        },
+        {
+          "value": "5",
+          "label": {
+            "en": "5 miles (8 km)",
+            "fr": "5 miles (8 km)",
+            "de": "5 Meilen (8 km)",
+            "es": "5 millas (8 km)"
+          }
+        },
+        {
+          "value": "10",
+          "label": {
+            "en": "10 miles (16 km)",
+            "fr": "10 miles (16 km)",
+            "de": "10 Meilen (16 km)",
+            "es": "10 millas (16 km)"
+          }
+        },
+        {
+          "value": "15",
+          "label": {
+            "en": "15 miles (24 km)",
+            "fr": "15 miles (24 km)",
+            "de": "15 Meilen (24 km)",
+            "es": "15 millas (24 km)"
+          }
+        },
+        {
+          "value": "25",
+          "label": {
+            "en": "25 miles (40 km)",
+            "fr": "25 miles (40 km)",
+            "de": "25 Meilen (40 km)",
+            "es": "25 millas (40 km)"
+          }
+        }
+      ]
     },
     {
-      "key": "identify",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "fields": [
+      "key": "prescribed_burns",
+      "type": "boolean",
+      "label": {
+        "en": "Include prescribed burns",
+        "fr": "Inclure les brûlages dirigés",
+        "de": "Kontrolliertes Abbrennen einbeziehen",
+        "es": "Incluir las quemas prescritas"
+      },
+      "description": {
+        "en": "Planned burns lit by land managers (“RX”). More than half of the incidents in autumn.",
+        "fr": "Brûlages planifiés par les gestionnaires des terres (« RX »). Plus de la moitié des incidents en automne.",
+        "de": "Geplante Brände der Landverwalter („RX“). Im Herbst mehr als die Hälfte der Einsätze.",
+        "es": "Quemas planificadas por los gestores del territorio («RX»). Más de la mitad de los incidentes en otoño."
+      },
+      "required": false,
+      "default": false
+    },
+    {
+      "key": "ignore_contained",
+      "type": "boolean",
+      "label": {
+        "en": "Ignore fully contained fires",
+        "fr": "Ignorer les feux maîtrisés à 100 %",
+        "de": "Vollständig eingedämmte Brände ignorieren",
+        "es": "Ignorar los incendios contenidos al 100 %"
+      },
+      "description": {
+        "en": "A fire stays listed for weeks after reaching 100 % containment, until it is declared out.",
+        "fr": "Un feu reste listé des semaines après avoir atteint 100 % de maîtrise, jusqu'à son extinction déclarée.",
+        "de": "Ein Brand bleibt nach 100 % Eindämmung wochenlang gelistet, bis er für gelöscht erklärt wird.",
+        "es": "Un incendio sigue listado semanas después de alcanzar el 100 % de contención, hasta que se declara extinguido."
+      },
+      "required": false,
+      "default": false
+    },
+    {
+      "key": "units",
+      "type": "select",
+      "label": {
+        "en": "Units",
+        "fr": "Unités",
+        "de": "Einheiten",
+        "es": "Unidades"
+      },
+      "description": {
+        "en": "Of the texts and of the distance feature (fixed when the device is created). The area feature is in km².",
+        "fr": "Des textes et de la distance (fixée à la création de l'appareil). La surface est en km².",
+        "de": "Der Texte und der Entfernung (beim Anlegen des Geräts festgelegt). Die Fläche ist in km².",
+        "es": "De los textos y de la distancia (fijada al crear el dispositivo). La superficie está en km²."
+      },
+      "required": false,
+      "default": "imperial",
+      "options": [
         {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
+          "value": "imperial",
+          "label": {
+            "en": "Miles and acres",
+            "fr": "Miles et acres",
+            "de": "Meilen und Acres",
+            "es": "Millas y acres"
+          }
+        },
+        {
+          "value": "metric",
+          "label": {
+            "en": "Kilometres and hectares",
+            "fr": "Kilomètres et hectares",
+            "de": "Kilometer und Hektar",
+            "es": "Kilómetros y hectáreas"
+          }
+        }
+      ]
+    },
+    {
+      "key": "refresh_interval",
+      "type": "select",
+      "label": {
+        "en": "Refresh interval",
+        "fr": "Fréquence de mise à jour",
+        "de": "Aktualisierungsintervall",
+        "es": "Intervalo de actualización"
+      },
+      "description": {
+        "en": "NIFC updates the incidents every few minutes; the perimeters when they are mapped again.",
+        "fr": "Le NIFC met à jour les incidents toutes les quelques minutes ; les périmètres quand ils sont recartographiés.",
+        "de": "Das NIFC aktualisiert die Einsätze alle paar Minuten, die Umrisse bei jeder neuen Kartierung.",
+        "es": "El NIFC actualiza los incidentes cada pocos minutos; los perímetros cuando se vuelven a cartografiar."
+      },
+      "required": false,
+      "default": "15",
+      "options": [
+        {
+          "value": "10",
+          "label": {
+            "en": "10 minutes",
+            "fr": "10 minutes",
+            "de": "10 Minuten",
+            "es": "10 minutos"
+          }
+        },
+        {
+          "value": "15",
+          "label": {
+            "en": "15 minutes",
+            "fr": "15 minutes",
+            "de": "15 Minuten",
+            "es": "15 minutos"
+          }
+        },
+        {
+          "value": "30",
+          "label": {
+            "en": "30 minutes",
+            "fr": "30 minutes",
+            "de": "30 Minuten",
+            "es": "30 minutos"
+          }
+        },
+        {
+          "value": "60",
+          "label": {
+            "en": "60 minutes",
+            "fr": "60 minutes",
+            "de": "60 Minuten",
+            "es": "60 minutos"
+          }
+        }
+      ]
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
+      },
+      "description": {
+        "en": "Names of the features (at their creation) and texts sent to the scenes.",
+        "fr": "Noms des fonctionnalités (à leur création) et textes envoyés aux scènes.",
+        "de": "Namen der Funktionen (bei ihrer Erstellung) und Texte für die Szenen.",
+        "es": "Nombres de las funciones (al crearlas) y textos enviados a las escenas."
+      },
+      "required": false,
+      "default": "fr",
+      "options": [
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "Anglais",
+            "de": "Englisch",
+            "es": "Inglés"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "fr": "Français",
+            "de": "Französisch",
+            "es": "Francés"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "fr": "Allemand",
+            "de": "Deutsch",
+            "es": "Alemán"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Spanish",
+            "fr": "Espagnol",
+            "de": "Spanisch",
+            "es": "Español"
+          }
         }
       ]
     }
   ],
+  "actions": [
+    {
+      "key": "check_now",
+      "label": {
+        "en": "Show the current fires",
+        "fr": "Afficher les feux en cours",
+        "de": "Aktuelle Brände anzeigen",
+        "es": "Mostrar los incendios actuales"
+      },
+      "timeout_seconds": 60
+    }
+  ],
   "scene_triggers": [
     {
-      "key": "motion_detected",
-      "label": { "en": "Motion detected", "fr": "Mouvement détecté" },
+      "key": "new_fire",
+      "label": {
+        "en": "US wildfires: new fire in the radius",
+        "fr": "Feux US : nouveau feu dans le rayon",
+        "de": "US-Waldbrände: neuer Brand im Radius",
+        "es": "Incendios EE. UU.: nuevo incendio en el radio"
+      },
       "description": {
-        "en": "A demo motion sensor saw a person or an animal move.",
-        "fr": "Un détecteur de démonstration a vu bouger une personne ou un animal."
+        "en": "A fire not seen before is listed by NIFC within the radius of your house.",
+        "fr": "Un feu jamais vu est listé par le NIFC dans le rayon autour de votre maison.",
+        "de": "Ein bisher unbekannter Brand wird vom NIFC im Radius um dein Haus gelistet.",
+        "es": "El NIFC lista un incendio no visto antes en el radio alrededor de su casa."
       },
       "fields": [
         {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Sensor", "fr": "Détecteur" }
-        },
-        {
-          "key": "target",
+          "key": "incident_type",
           "type": "multi_select",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" },
+          "label": {
+            "en": "Incident types",
+            "fr": "Types d'incident",
+            "de": "Einsatztypen",
+            "es": "Tipos de incidente"
+          },
           "options": [
-            { "value": "person", "label": { "en": "Person", "fr": "Personne" } },
-            { "value": "animal", "label": { "en": "Animal", "fr": "Animal" } }
+            {
+              "value": "wildfire",
+              "label": {
+                "en": "Wildfire",
+                "fr": "Feu de forêt",
+                "de": "Waldbrand",
+                "es": "Incendio forestal"
+              }
+            },
+            {
+              "value": "prescribed",
+              "label": {
+                "en": "Prescribed burn",
+                "fr": "Brûlage dirigé",
+                "de": "Kontrolliertes Abbrennen",
+                "es": "Quema prescrita"
+              }
+            }
           ]
         }
       ],
       "variables": [
         {
-          "key": "target",
+          "key": "name",
           "type": "string",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" }
+          "label": {
+            "en": "Fire name",
+            "fr": "Nom du feu",
+            "de": "Name des Brandes",
+            "es": "Nombre del incendio"
+          }
+        },
+        {
+          "key": "incident_type",
+          "type": "string",
+          "label": {
+            "en": "Type (wildfire, prescribed)",
+            "fr": "Type (wildfire, prescribed)",
+            "de": "Typ (wildfire, prescribed)",
+            "es": "Tipo (wildfire, prescribed)"
+          }
+        },
+        {
+          "key": "distance",
+          "type": "number",
+          "label": {
+            "en": "Distance",
+            "fr": "Distance",
+            "de": "Entfernung",
+            "es": "Distancia"
+          }
+        },
+        {
+          "key": "distance_unit",
+          "type": "string",
+          "label": {
+            "en": "Distance unit (mi, km)",
+            "fr": "Unité de distance (mi, km)",
+            "de": "Entfernungseinheit (mi, km)",
+            "es": "Unidad de distancia (mi, km)"
+          }
+        },
+        {
+          "key": "area",
+          "type": "number",
+          "label": {
+            "en": "Area",
+            "fr": "Surface",
+            "de": "Fläche",
+            "es": "Superficie"
+          }
+        },
+        {
+          "key": "area_unit",
+          "type": "string",
+          "label": {
+            "en": "Area unit (acres, ha)",
+            "fr": "Unité de surface (acres, ha)",
+            "de": "Flächeneinheit (acres, ha)",
+            "es": "Unidad de superficie (acres, ha)"
+          }
+        },
+        {
+          "key": "containment",
+          "type": "number",
+          "label": {
+            "en": "Containment (%)",
+            "fr": "Maîtrise (%)",
+            "de": "Eindämmung (%)",
+            "es": "Contención (%)"
+          }
+        },
+        {
+          "key": "state",
+          "type": "string",
+          "label": {
+            "en": "State (CA, OR…)",
+            "fr": "État (CA, OR…)",
+            "de": "Bundesstaat (CA, OR…)",
+            "es": "Estado (CA, OR…)"
+          }
+        },
+        {
+          "key": "county",
+          "type": "string",
+          "label": {
+            "en": "County",
+            "fr": "Comté",
+            "de": "County",
+            "es": "Condado"
+          }
+        },
+        {
+          "key": "cause",
+          "type": "string",
+          "label": {
+            "en": "Cause (Human, Natural…)",
+            "fr": "Cause (Human, Natural…)",
+            "de": "Ursache (Human, Natural…)",
+            "es": "Causa (Human, Natural…)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "fire_approaching",
+      "label": {
+        "en": "US wildfires: fire approaching",
+        "fr": "Feux US : feu qui approche",
+        "de": "US-Waldbrände: Brand nähert sich",
+        "es": "Incendios EE. UU.: incendio que se acerca"
+      },
+      "description": {
+        "en": "A fire comes within the alert distance of the configuration (once per fire).",
+        "fr": "Un feu arrive à moins de la distance d'alerte de la configuration (une fois par feu).",
+        "de": "Ein Brand kommt näher als die Warnentfernung der Konfiguration (einmal pro Brand).",
+        "es": "Un incendio llega a menos de la distancia de alerta de la configuración (una vez por incendio)."
+      },
+      "fields": [
+        {
+          "key": "incident_type",
+          "type": "multi_select",
+          "label": {
+            "en": "Incident types",
+            "fr": "Types d'incident",
+            "de": "Einsatztypen",
+            "es": "Tipos de incidente"
+          },
+          "options": [
+            {
+              "value": "wildfire",
+              "label": {
+                "en": "Wildfire",
+                "fr": "Feu de forêt",
+                "de": "Waldbrand",
+                "es": "Incendio forestal"
+              }
+            },
+            {
+              "value": "prescribed",
+              "label": {
+                "en": "Prescribed burn",
+                "fr": "Brûlage dirigé",
+                "de": "Kontrolliertes Abbrennen",
+                "es": "Quema prescrita"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "name",
+          "type": "string",
+          "label": {
+            "en": "Fire name",
+            "fr": "Nom du feu",
+            "de": "Name des Brandes",
+            "es": "Nombre del incendio"
+          }
+        },
+        {
+          "key": "incident_type",
+          "type": "string",
+          "label": {
+            "en": "Type (wildfire, prescribed)",
+            "fr": "Type (wildfire, prescribed)",
+            "de": "Typ (wildfire, prescribed)",
+            "es": "Tipo (wildfire, prescribed)"
+          }
+        },
+        {
+          "key": "distance",
+          "type": "number",
+          "label": {
+            "en": "Distance",
+            "fr": "Distance",
+            "de": "Entfernung",
+            "es": "Distancia"
+          }
+        },
+        {
+          "key": "distance_unit",
+          "type": "string",
+          "label": {
+            "en": "Distance unit (mi, km)",
+            "fr": "Unité de distance (mi, km)",
+            "de": "Entfernungseinheit (mi, km)",
+            "es": "Unidad de distancia (mi, km)"
+          }
+        },
+        {
+          "key": "area",
+          "type": "number",
+          "label": {
+            "en": "Area",
+            "fr": "Surface",
+            "de": "Fläche",
+            "es": "Superficie"
+          }
+        },
+        {
+          "key": "area_unit",
+          "type": "string",
+          "label": {
+            "en": "Area unit (acres, ha)",
+            "fr": "Unité de surface (acres, ha)",
+            "de": "Flächeneinheit (acres, ha)",
+            "es": "Unidad de superficie (acres, ha)"
+          }
+        },
+        {
+          "key": "containment",
+          "type": "number",
+          "label": {
+            "en": "Containment (%)",
+            "fr": "Maîtrise (%)",
+            "de": "Eindämmung (%)",
+            "es": "Contención (%)"
+          }
+        },
+        {
+          "key": "state",
+          "type": "string",
+          "label": {
+            "en": "State (CA, OR…)",
+            "fr": "État (CA, OR…)",
+            "de": "Bundesstaat (CA, OR…)",
+            "es": "Estado (CA, OR…)"
+          }
+        },
+        {
+          "key": "county",
+          "type": "string",
+          "label": {
+            "en": "County",
+            "fr": "Comté",
+            "de": "County",
+            "es": "Condado"
+          }
+        },
+        {
+          "key": "cause",
+          "type": "string",
+          "label": {
+            "en": "Cause (Human, Natural…)",
+            "fr": "Cause (Human, Natural…)",
+            "de": "Ursache (Human, Natural…)",
+            "es": "Causa (Human, Natural…)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "fire_contained",
+      "label": {
+        "en": "US wildfires: fire 100 % contained",
+        "fr": "Feux US : feu maîtrisé à 100 %",
+        "de": "US-Waldbrände: Brand zu 100 % eingedämmt",
+        "es": "Incendios EE. UU.: incendio contenido al 100 %"
+      },
+      "description": {
+        "en": "A fire within the radius reaches 100 % containment.",
+        "fr": "Un feu du rayon atteint 100 % de maîtrise.",
+        "de": "Ein Brand im Radius erreicht 100 % Eindämmung.",
+        "es": "Un incendio del radio alcanza el 100 % de contención."
+      },
+      "variables": [
+        {
+          "key": "name",
+          "type": "string",
+          "label": {
+            "en": "Fire name",
+            "fr": "Nom du feu",
+            "de": "Name des Brandes",
+            "es": "Nombre del incendio"
+          }
+        },
+        {
+          "key": "incident_type",
+          "type": "string",
+          "label": {
+            "en": "Type (wildfire, prescribed)",
+            "fr": "Type (wildfire, prescribed)",
+            "de": "Typ (wildfire, prescribed)",
+            "es": "Tipo (wildfire, prescribed)"
+          }
+        },
+        {
+          "key": "distance",
+          "type": "number",
+          "label": {
+            "en": "Distance",
+            "fr": "Distance",
+            "de": "Entfernung",
+            "es": "Distancia"
+          }
+        },
+        {
+          "key": "distance_unit",
+          "type": "string",
+          "label": {
+            "en": "Distance unit (mi, km)",
+            "fr": "Unité de distance (mi, km)",
+            "de": "Entfernungseinheit (mi, km)",
+            "es": "Unidad de distancia (mi, km)"
+          }
+        },
+        {
+          "key": "area",
+          "type": "number",
+          "label": {
+            "en": "Area",
+            "fr": "Surface",
+            "de": "Fläche",
+            "es": "Superficie"
+          }
+        },
+        {
+          "key": "area_unit",
+          "type": "string",
+          "label": {
+            "en": "Area unit (acres, ha)",
+            "fr": "Unité de surface (acres, ha)",
+            "de": "Flächeneinheit (acres, ha)",
+            "es": "Unidad de superficie (acres, ha)"
+          }
+        },
+        {
+          "key": "containment",
+          "type": "number",
+          "label": {
+            "en": "Containment (%)",
+            "fr": "Maîtrise (%)",
+            "de": "Eindämmung (%)",
+            "es": "Contención (%)"
+          }
+        },
+        {
+          "key": "state",
+          "type": "string",
+          "label": {
+            "en": "State (CA, OR…)",
+            "fr": "État (CA, OR…)",
+            "de": "Bundesstaat (CA, OR…)",
+            "es": "Estado (CA, OR…)"
+          }
+        },
+        {
+          "key": "county",
+          "type": "string",
+          "label": {
+            "en": "County",
+            "fr": "Comté",
+            "de": "County",
+            "es": "Condado"
+          }
+        },
+        {
+          "key": "cause",
+          "type": "string",
+          "label": {
+            "en": "Cause (Human, Natural…)",
+            "fr": "Cause (Human, Natural…)",
+            "de": "Ursache (Human, Natural…)",
+            "es": "Causa (Human, Natural…)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
         }
       ]
     }
   ],
   "scene_actions": [
     {
-      "key": "identify_device",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "description": {
-        "en": "Make a device signal itself (the demo light blinks).",
-        "fr": "Fait se signaler un appareil (la lampe de démonstration clignote)."
+      "key": "read_fires",
+      "label": {
+        "en": "US wildfires: read the fires around",
+        "fr": "Feux US : lire les feux alentour",
+        "de": "US-Waldbrände: Brände in der Nähe lesen",
+        "es": "Incendios EE. UU.: leer los incendios cercanos"
       },
-      "timeout_seconds": 15,
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ],
+      "description": {
+        "en": "The fires within the radius as one sentence, nearest first, to send by message or read aloud.",
+        "fr": "Les feux du rayon en une phrase, du plus proche au plus loin, à envoyer par message ou à lire à voix haute.",
+        "de": "Die Brände im Radius als ein Satz, der nächste zuerst, zum Senden per Nachricht oder zum Vorlesen.",
+        "es": "Los incendios del radio en una frase, el más cercano primero, para enviar por mensaje o leer en voz alta."
+      },
+      "timeout_seconds": 60,
       "outputs": [
         {
-          "key": "signalled",
-          "type": "boolean",
-          "label": { "en": "Device signalled", "fr": "Appareil signalé" }
+          "key": "text",
+          "type": "string",
+          "label": {
+            "en": "Fires, in one sentence",
+            "fr": "Feux, en une phrase",
+            "de": "Brände, in einem Satz",
+            "es": "Incendios, en una frase"
+          }
+        },
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Number of fires",
+            "fr": "Nombre de feux",
+            "de": "Anzahl der Brände",
+            "es": "Número de incendios"
+          }
         }
       ]
     }
   ],
   "widgets": [
     {
-      "key": "demo_status",
-      "label": { "en": "Demo status", "fr": "État de la démo" },
-      "description": {
-        "en": "Live temperature and plug power, plug connection and observed location.",
-        "fr": "Température et puissance en direct, connexion de la prise, position observée."
+      "key": "fires",
+      "label": {
+        "en": "Wildfires around",
+        "fr": "Feux alentour",
+        "de": "Brände in der Nähe",
+        "es": "Incendios cercanos"
       },
-      "icon": "activity",
-      "action_timeout_seconds": 15
+      "description": {
+        "en": "The fires within your radius, nearest first, with size and containment.",
+        "fr": "Les feux de votre rayon, du plus proche au plus loin, avec surface et maîtrise.",
+        "de": "Die Brände in deinem Radius, der nächste zuerst, mit Fläche und Eindämmung.",
+        "es": "Los incendios de su radio, el más cercano primero, con superficie y contención."
+      },
+      "icon": "alert-triangle",
+      "settings": [
+        {
+          "key": "show_link",
+          "type": "boolean",
+          "label": {
+            "en": "InciWeb button",
+            "fr": "Bouton InciWeb",
+            "de": "InciWeb-Schaltfläche",
+            "es": "Botón InciWeb"
+          },
+          "required": false,
+          "default": true
+        }
+      ]
     }
   ]
 }

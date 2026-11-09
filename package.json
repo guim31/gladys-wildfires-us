@@ -1,8 +1,8 @@
 {
-  "name": "gladys-integration-template-js",
+  "name": "gladys-wildfires-us",
   "version": "1.0.0",
   "private": true,
-  "description": "Official starter template to build an external integration for Gladys Assistant with the JavaScript SDK.",
+  "description": "Gladys Assistant integration: active US wildfires near the home, from NIFC (WFIGS).",
   "type": "module",
   "main": "index.js",
   "scripts": {

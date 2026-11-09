@@ -1,67 +1,170 @@
-# Template de démonstration
+# US Wildfires
 
-Ceci est la documentation utilisateur de l'intégration. Gladys ré-héberge ce
-fichier et affiche un lien **Documentation** permanent vers lui dans l'écran
-de configuration (dans la langue de l'utilisateur, avec l'anglais en repli) —
-c'est au moment de configurer que l'utilisateur en a le plus besoin. Gardez
-les courtes indications d'accueil dans les blocs `section` du `config_schema`
-du manifest ; mettez ici le pas-à-pas détaillé (captures d'écran, dépannage…).
+Suivez depuis Gladys les feux de forêt en cours autour de votre maison aux États-Unis, avec les données
+officielles du [National Interagency Fire Center](https://www.nifc.gov) (NIFC) : les incidents et les
+périmètres cartographiés de WFIGS (Wildland Fire Interagency Geospatial Services), domaine public, mis à
+jour toutes les quelques minutes. Sans compte ni clé d'API.
+
+Pour chaque feu dans votre rayon : son nom, sa distance (au bord de son périmètre cartographié quand il
+existe), sa surface, sa maîtrise, son comté et son État.
+
+Ce n'est pas un service d'alerte officiel : en cas d'urgence, suivez vos autorités locales, les alertes
+d'urgence de votre comté et les ordres d'évacuation. Non affiliée au NIFC, à l'US Forest Service ni à
+aucune autre agence.
 
 ## Ce que vous obtenez
 
-Six appareils de démonstration apparaissent après l'installation : une
-station météo (vraies données Open-Meteo), un interrupteur, une lampe
-variable, une prise connectée avec mesure de puissance, un détecteur de
-mouvement et une caméra.
+- Un appareil **Feux autour de la maison** : nombre de feux dans le rayon, distance du feu le plus proche,
+  le feu le plus proche en toutes lettres et la surface brûlée totale, avec leur historique.
+- Un **widget de tableau de bord** qui liste les feux du plus proche au plus loin, avec leur surface et
+  leur maîtrise.
+- Trois **déclencheurs de scène** : un nouveau feu dans le rayon, un feu qui approche (à moins de la
+  distance d'alerte), un feu maîtrisé à 100 %.
+- Une **action de scène** qui lit les feux alentour en une phrase, à envoyer par message ou à lire à voix
+  haute.
+
+## Prérequis
+
+- Gladys Assistant 5.3 ou plus récent.
+- Un accès à Internet depuis la machine de Gladys (l'intégration lit `services3.arcgis.com`, le service
+  ArcGIS du NIFC).
+- Une position pour votre maison dans Gladys (Paramètres → Maisons), ou des coordonnées saisies dans la
+  configuration. Les données ne couvrent que les États-Unis (et Porto Rico).
 
 ## Configuration
 
-1. Ouvrez l'onglet **Configuration** de l'intégration.
-2. Renseignez la **latitude** et la **longitude** que la station météo de
-   démonstration doit observer (Paris par défaut), et choisissez votre unité
-   de température. L'**intervalle de rafraîchissement** règle la fréquence
-   de lecture de la station météo et de la puissance de la prise : toutes
-   les 5 minutes par défaut, toutes les minutes au plus.
-3. Enregistrez : les appareils apparaissent dans l'onglet **Découverte**,
-   prêts à être ajoutés.
+### Réglages
 
-Le réglage **Préférer la connexion locale** pilote la prise de
-démonstration : elle affiche en badge le canal réellement utilisé (local ou
-cloud), avec un point orange quand elle fonctionne en mode dégradé (local
-refusé, bascule cloud).
+| Réglage                            | Rôle                                                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Latitude et longitude du centre    | Centre de la zone. Laissez-les vides pour utiliser la position de votre maison. Virgule décimale acceptée.    |
+| Rayon                              | 10, 25, 50 (par défaut), 100 ou 150 miles.                                                                    |
+| Distance d'alerte                  | 1 à 25 miles (10 par défaut) : le déclencheur « Feu qui approche » part quand un feu arrive à cette distance. |
+| Inclure les brûlages dirigés       | Suivre aussi les brûlages planifiés par les gestionnaires des terres (« RX »). Désactivé par défaut.          |
+| Ignorer les feux maîtrisés à 100 % | Masquer les feux maîtrisés, qui restent listés jusqu'à leur extinction déclarée. Désactivé par défaut.        |
+| Unités                             | Miles et acres (par défaut), ou kilomètres et hectares.                                                       |
+| Fréquence de mise à jour           | 10, 15 (par défaut), 30 ou 60 minutes.                                                                        |
+| Langue des textes                  | Noms des fonctionnalités (à leur création) et textes envoyés aux scènes. Français par défaut.                 |
 
-## Actions
+Enregistrez, puis ouvrez l'onglet **Découverte** de l'intégration et créez l'appareil **Feux autour de la
+maison**. Le bouton **Afficher les feux en cours** de la configuration liste aussitôt les feux alentour :
+un moyen rapide de vérifier les réglages.
 
-- **Tester le fournisseur météo** — effectue une requête en direct vers
-  Open-Meteo et affiche la température et l'humidité actuelles sous le
-  bouton.
-- **Identifier un appareil** — choisissez un de vos appareils dans la liste
-  et il se signale (la lampe de démonstration « clignote » dans les logs).
+### Les feux suivis
 
-## Scènes
+Un feu est suivi quand le NIFC le liste comme en cours, que c'est un feu de forêt (ou un brûlage dirigé,
+si choisi) et que sa distance est dans le rayon. La distance est mesurée **au bord de son périmètre
+cartographié** quand le NIFC en a un (0 si votre maison est dedans), sinon à son **point de départ**. Les
+grands feux sont souvent bien plus proches par leur périmètre que par leur point : le feu Hagen de
+l'enregistrement de test est à 25 miles par son point et à 21 par son périmètre.
 
-L'intégration ajoute ses propres cartes à l'éditeur de scènes (Gladys 5.1
-ou plus récent), dans la catégorie **Intégrations** :
+Vie privée : la position envoyée au NIFC est **arrondie à 0,1°** (environ 11 km), avec un rayon élargi
+d'autant ; la distance exacte est calculée dans le conteneur. La position de la maison n'est jamais
+écrite dans les logs ni dans `/data`.
 
-- **Mouvement détecté** (déclencheur) — lance la scène quand un détecteur
-  de démonstration voit bouger quelque chose. Choisissez éventuellement le
-  détecteur et ce qui a bougé (personne, animal) ; laissés vides, toute
-  détection correspond. Les actions suivantes peuvent lire ce qui a bougé
-  avec `{{triggerEvent.data.target}}`.
-- **Identifier un appareil** (action) — fait se signaler l'appareil choisi.
-  Elle indique si l'appareil a pu se signaler, pour que les actions
-  suivantes puissent en dépendre.
+## Appareil
 
-## Tableau de bord
+| Fonctionnalité                 | Type              | Valeur                                                                                            |
+| ------------------------------ | ----------------- | ------------------------------------------------------------------------------------------------- |
+| Feux dans le rayon             | Compteur          | Nombre de feux suivis                                                                             |
+| Distance du feu le plus proche | Distance (mi, km) | Distance au feu le plus proche ; 1 000 s'il n'y en a aucun, pour qu'une condition « < 10 » tienne |
+| Feu le plus proche             | Texte             | ex. `North Cayuse · 15 mi · 4 887 acres · maîtrisé à 97 % · Umatilla, OR`                         |
+| Surface brûlée totale          | Surface (km²)     | Surface des feux suivis. Gladys n'a pas d'unité acre : 1 km² vaut 247 acres                       |
 
-Ajoutez le widget **État de la démo** à un tableau de bord : il affiche en
-direct la température de la station météo et la puissance de la prise du
-bureau, la connexion utilisée par la prise (en orange si dégradée) et la
-position observée. Son bouton **Identifier la lampe** fait se signaler la
-lampe de démonstration.
+L'unité de la distance est celle du réglage **Unités** à la création de l'appareil ; elle ne change plus
+ensuite (supprimez et recréez l'appareil pour la changer). Quand le NIFC ne répond pas, rien n'est
+publié : les dernières valeurs restent, et l'écran de configuration le signale. Les valeurs sont lues dans
+le conteneur à chaque intervalle : l'appareil n'est pas interrogé par Gladys.
+
+## Widget de tableau de bord
+
+**Feux alentour** : un titre avec le nombre de feux, puis jusqu'à 8 feux, du plus proche au plus loin.
+Chaque ligne donne le nom, la distance, la surface et le comté, et la maîtrise en pastille (verte à
+100 %). Touchez une ligne pour voir la date de découverte, la cause, l'identifiant NIFC et une carte de
+l'emplacement du feu. Les distances suivent les unités de votre compte Gladys. Le pied indique la source
+et l'heure de la dernière lecture ; le bouton **InciWeb** (actualités des incidents) se masque dans les
+réglages du widget.
+
+## Déclencheurs de scène
+
+**Feux US : nouveau feu dans le rayon** se déclenche quand un feu jamais vu entre dans le rayon. Filtre :
+types d'incident (feu de forêt, brûlage dirigé).
+
+**Feux US : feu qui approche** se déclenche quand un feu arrive à moins de la distance d'alerte de la
+configuration, nouveau feu compris. Filtre : types d'incident.
+
+**Feux US : feu maîtrisé à 100 %** se déclenche quand un feu suivi atteint 100 % de maîtrise.
+
+Chaque déclencheur part **une fois par feu** : un périmètre redessiné de part et d'autre de la distance
+d'alerte ne le relance pas. Les feux déjà listés au tout premier démarrage, ou quand vous changez la
+configuration, ne déclenchent rien : ce n'est pas une nouvelle. Ce qui a été vu est conservé dans
+`/data` : un redémarrage ne déclenche rien pour les feux déjà vus. Au plus 20 événements par mise à jour.
+
+Variables des trois déclencheurs : `name`, `incident_type` (`wildfire`, `prescribed`), `distance` et
+`distance_unit` (`mi` ou `km`), `area` et `area_unit` (`acres` ou `ha`), `containment` (pourcentage, vide
+quand le NIFC ne le dit pas), `state` (`CA`, `OR`…), `county`, `cause` (`Human`, `Natural`,
+`Undetermined`, tel que publié) et `summary` (une ligne, comme la fonctionnalité Feu le plus proche).
+
+## Action de scène
+
+**Feux US : lire les feux alentour** relit le NIFC si la dernière lecture date de plus d'un intervalle,
+puis renvoie :
+
+- `text` : les feux en une phrase, ex. `5 feux à moins de 50 mi : North Cayuse, à 15 mi ; Hagen, à 21 mi ;
+Dorran Road, à 22 mi ; 1924, à 35 mi ; Paradise, à 41 mi.` (5 feux au plus, puis « et N de plus ») ;
+- `count` : le nombre de feux.
+
+## Exemples de scènes
+
+- **Message quand un feu approche** : déclencheur « Feux US : feu qui approche », action « Envoyer un
+  message » avec `{{triggerEvent.data.summary}}`.
+- **Point du matin en saison des feux** : chaque jour à 7 h 30, « Feux US : lire les feux alentour », puis
+  « Envoyer un message » avec son `text`, seulement si `count` est supérieur à 0.
+- **Fermer les fenêtres et couper la ventilation** : quand « Distance du feu le plus proche » passe sous 10,
+  éteindre la VMC et envoyer un rappel pour fermer les fenêtres (fumée).
+- **Bonne nouvelle** : sur « Feux US : feu maîtrisé à 100 % », envoyer `{{triggerEvent.data.name}} est
+maîtrisé`.
+
+## Sources, conditions et quotas
+
+- Données : NIFC, couches WFIGS « Incident Locations Current » et « Interagency Perimeters Current »,
+  domaine public, lues depuis les [données ouvertes du NIFC](https://data-nifc.opendata.arcgis.com) sans
+  compte. Les incidents viennent d'IRWIN, le système commun des agences de lutte fédérales, des États et
+  locales.
+- Les données sont saisies par les agences, parfois en retard : un nouveau feu peut apparaître avec un
+  délai, la surface et la maîtrise sont les dernières déclarées, les petits feux n'ont souvent pas de
+  périmètre, et un feu reste « en cours » jusqu'à son extinction déclarée. Elles ne remplacent jamais les
+  alertes et ordres d'évacuation de vos autorités locales. Voir [Ready.gov](https://www.ready.gov/wildfires)
+  pour se préparer.
+- Quotas : le NIFC n'en publie pas pour ces couches publiques. L'intégration fait deux requêtes par
+  intervalle (15 minutes par défaut), limitées à la zone autour de votre maison, avec des périmètres
+  simplifiés (précision d'environ 200 m) : quelques dizaines de kilo-octets par cycle.
 
 ## Dépannage
 
-L'intégration journalise tout ce qu'elle fait : consultez les logs de
-l'intégration depuis l'interface Gladys (ou `docker logs` sur l'hôte) avec
-`LOG_LEVEL=debug` pour le détail complet.
+- **« Aucun centre » dans la configuration** : indiquez la position de votre maison dans Gladys
+  (Paramètres → Maisons), ou saisissez des coordonnées.
+- **« Le NIFC ne répond pas »** : le service ArcGIS est en panne ou injoignable depuis la machine de Gladys.
+  Les dernières valeurs restent ; l'intégration réessaie à chaque intervalle et le dit une fois dans ses
+  logs.
+- **Aucun feu** : vérifiez que le centre est aux États-Unis, et élargissez le rayon ; hors saison des feux,
+  il peut tout simplement n'y en avoir aucun.
+- **Trop de petits feux sans intérêt** : activez « Ignorer les feux maîtrisés à 100 % » et laissez les
+  brûlages dirigés désactivés.
+- **Aucun déclencheur après un changement de réglages** : normal, les feux déjà là ne sont pas une
+  nouvelle.
+- **Noms des fonctionnalités dans la mauvaise langue, ou distance dans la mauvaise unité** : ils sont fixés
+  à la création de l'appareil. Changez le réglage, supprimez l'appareil, puis recréez-le depuis l'onglet
+  Découverte.
+- Logs : page de l'intégration dans Gladys, onglet Logs. `LOG_LEVEL=debug` donne une ligne par lecture.
+
+## Limites
+
+- États-Unis et Porto Rico seulement : WFIGS ne couvre ni le Canada ni le Mexique.
+- La distance est mesurée au périmètre cartographié, qui peut dater d'un jour ou plus ; entre deux
+  cartographies, un feu rapide peut être plus près qu'affiché. Les petits feux n'ont qu'un point.
+- La surface, la maîtrise et la cause sont celles déclarées par les agences : elles peuvent être en retard
+  sur le terrain.
+- Le NIFC ne publie pas la page InciWeb d'un incident : le widget renvoie vers l'accueil d'InciWeb.
+- Testée contre le vrai service du NIFC (enregistrement du 7 novembre 2026 autour de Pendleton, Oregon),
+  pas sur un vrai feu près d'une maison Gladys : les retours sont les bienvenus sur le forum.

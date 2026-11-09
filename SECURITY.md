@@ -30,6 +30,13 @@ Gladys before reporting a problem.
 
 In scope: the code of this repository and the Docker image it publishes.
 
+The integration needs no account and stores no secret. It reads the public ArcGIS layers of NIFC
+(`services3.arcgis.com`, HTTPS, no key) and the houses of Gladys, for the location of the centre
+of the area (the `location` access of the manifest). That location is sent to NIFC rounded to 0.1°
+only, and is never written to `/data` nor to the logs. Under `/data` it keeps one file,
+`wildfires.json`: the IRWIN ids of the fires already seen and two flags each (came within the alert
+distance, 100 % contained), nothing about the user.
+
 Out of scope: Gladys Assistant itself (see its
 [security policy](https://github.com/GladysAssistant/Gladys/security/policy)),
-and the third-party services and devices the integration talks to.
+and the NIFC service.

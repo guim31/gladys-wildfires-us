@@ -2,3 +2,5 @@ node_modules/
 package-lock.json
 /data/
 *.log
+# Recorded answers of NIFC (see test/fixtures/README.md).
+test/fixtures/nifc/
