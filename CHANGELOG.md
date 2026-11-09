@@ -10,6 +10,8 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-09
+
 ### Added
 
 - A "Fires around the house" device: the active wildfires of the National Interagency Fire Center
@@ -24,4 +26,5 @@ the notes of the version's GitHub Release.
   hectares, refresh interval, language of the texts (English, French, German, Spanish).
 - The location of the house is sent to NIFC rounded to 0.1° only, and never logged.
 
-[Unreleased]: https://github.com/guim31/gladys-wildfires-us/commits/main
+[Unreleased]: https://github.com/guim31/gladys-wildfires-us/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/guim31/gladys-wildfires-us/releases/tag/v1.0.0
